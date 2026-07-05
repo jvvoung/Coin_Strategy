@@ -28,8 +28,10 @@ futures_bot/
 ├── risk/                    # 포지션사이즈, 손절/익절가, 청산가 안전마진, 일일/연속손실 가드
 ├── execution/               # 포지션 상태전이 판단(One-way Mode) + 주문 실행
 ├── backtest/                # 백테스트 엔진 + 성과지표(승률/PF/MDD/Sharpe/청산횟수)
+├── notifications/           # 텔레그램 알림
 ├── logs/                    # trades.csv, errors.log, account_guard_state.json (실행 중 생성)
 ├── main.py                  # 실거래 진입점
+├── app.py                   # Streamlit 읽기전용 대시보드 (main.py와 분리, 주문/시작·중지 기능 없음)
 └── run_backtest.py          # 백테스트 진입점 (main.py와 완전히 분리, 서로 호출 안 함)
 ```
 
@@ -40,6 +42,18 @@ cd futures_bot
 pip install -r requirements.txt
 cp .env.example .env   # 발급받은 API 키 입력, BINANCE_TESTNET=true 유지
 ```
+
+## Streamlit 대시보드 (읽기 전용)
+
+설정/전략 조건/최근 거래·에러 로그/텔레그램 알림 상태를 웹 UI로 확인할 수 있다. 주문 실행이나
+봇 시작·중지 기능은 없다 (그건 아래 `python main.py`로 별도 실행).
+
+```bash
+cd futures_bot
+streamlit run app.py
+```
+
+브라우저에서 `http://localhost:8501` 접속. AWS에 올릴 파일 목록은 [AWS_UPLOAD_FILES.txt](AWS_UPLOAD_FILES.txt) 참고.
 
 ## 실행 순서 (반드시 이 순서로— strategy_design.md 9번)
 
