@@ -1,0 +1,16 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+
+# 비밀키 — 절대 커밋하지 말 것
+.env
+
+# 실행 중 생성되는 로그/상태 (거래내역, 계좌 가드 상태 등 개인 데이터)
+futures_bot/logs/*.csv
+futures_bot/logs/*.log
+futures_bot/logs/*.json
+
+# OS
+.DS_Store
+Thumbs.db
