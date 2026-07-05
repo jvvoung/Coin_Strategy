@@ -90,6 +90,9 @@ class BinanceFuturesClient:
     def fetch_open_orders(self, symbol):
         return self.call(self.exchange.fetch_open_orders, symbol)
 
+    def fetch_order(self, order_id, symbol):
+        return self.call(self.exchange.fetch_order, order_id, symbol)
+
     def cancel_order(self, order_id, symbol):
         return self.call(self.exchange.cancel_order, order_id, symbol)
 

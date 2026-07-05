@@ -41,6 +41,10 @@ class AccountGuard:
         with open(self.state_path, "w", encoding="utf-8") as f:
             json.dump(self._state, f, ensure_ascii=False, indent=2)
 
+    def daily_pnl_pct(self) -> float:
+        self._state = self._load_state()
+        return self._state["daily_pnl_pct"]
+
     def can_open_new_position(self) -> tuple[bool, str]:
         self._state = self._load_state()
 

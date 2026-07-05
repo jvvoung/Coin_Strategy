@@ -23,6 +23,19 @@ class PositionState:
     entry_price: float
 
 
+@dataclass(frozen=True)
+class OpenPositionSnapshot:
+    """진입 시점의 정보를 기억해뒀다가, 거래소에서 SL/TP가 조용히 체결됐을 때
+    (봇이 직접 청산 주문을 내지 않은 경우) 손익/사유를 계산하는 데 사용한다."""
+    side: Side
+    entry_price: float
+    quantity: float
+    stop_price: float
+    take_profit_price: float
+    stop_order_id: str
+    take_profit_order_id: str
+
+
 def get_position_state(client, symbol: str) -> PositionState:
     """ccxt의 unified position 필드에서 'contracts'는 보통 절댓값이라 부호로 방향을
     판단할 수 없다. 방향은 unified 'side' 필드를 우선 쓰고, 없으면 원시 응답의

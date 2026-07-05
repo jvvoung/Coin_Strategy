@@ -32,11 +32,19 @@ class StrategyConfig:
     timeframe: str = "15m"
     ema_fast: int = 20
     ema_slow: int = 60
-    atr_period: int = 14
-    breakout_atr_multiplier: float = 0.5   # 돌파선 = 직전 종가 +/- ATR * 이 배수
+    atr_period: int = 14                   # 손절/익절폭 계산(risk 레이어)에 계속 사용
+    bb_period: int = 20                    # 볼린저밴드 돌파 필터 (ATR 돌파 대체)
+    bb_num_std: float = 2.0
     rsi_period: int = 14
     rsi_long_threshold: float = 52.0       # 이 값 초과 + 상승 중이어야 롱 모멘텀 확인
     rsi_short_threshold: float = 48.0      # 이 값 미만 + 하락 중이어야 숏 모멘텀 확인
+
+
+@dataclass(frozen=True)
+class NotificationConfig:
+    telegram_bot_token: str = os.getenv("TELEGRAM_BOT_TOKEN", "")
+    telegram_chat_id: str = os.getenv("TELEGRAM_CHAT_ID", "")
+    telegram_enabled: bool = os.getenv("TELEGRAM_ENABLED", "true").lower() == "true"
 
 
 @dataclass(frozen=True)
@@ -64,6 +72,7 @@ class AppConfig:
     risk: RiskConfig = field(default_factory=RiskConfig)
     strategy: StrategyConfig = field(default_factory=StrategyConfig)
     backtest: BacktestConfig = field(default_factory=BacktestConfig)
+    notification: NotificationConfig = field(default_factory=NotificationConfig)
 
     log_dir: str = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "logs")
 
