@@ -17,9 +17,10 @@ futures_bot/
 ├── risk/                    (포지션사이즈/손절/익절/계좌가드)
 ├── execution/                (포지션 상태전이 + 주문 실행)
 ├── notifications/           (텔레그램 알림)
+├── backtest/                (app.py의 Backtest 탭이 직접 import함 — 반드시 포함)
 ├── logs/                    (빈 폴더만 올릴 것 — 실행 시 파일은 자동 생성됨)
 ├── main.py                  (실거래 진입점)
-├── app.py                   (Streamlit 읽기전용 대시보드)
+├── app.py                   (Streamlit 읽기전용 대시보드 — Backtest 탭 포함)
 ├── requirements.txt
 ├── .env.example             (참고용 — 실제 키 값은 들어있지 않음)
 ├── README.md, FLOW.md       (문서, 필수는 아니지만 운영 참고용으로 권장)
@@ -35,8 +36,9 @@ futures_bot/
 - __pycache__/, *.pyc        ← 파이썬 캐시, 불필요.
 - .git/                      ← 저장소 이력, 서버 운영에 불필요 (git clone으로
                                 받는 경우가 아니라면 제외).
-- backtest/, run_backtest.py ← 로컬 전략 검증용. 서버(main.py 실행 환경)에는
-                                필요 없음. 백테스트는 로컬 PC에서만 수행.
+- run_backtest.py            ← CLI 백테스트 진입점. app.py의 Backtest 탭이 같은
+                                로직을 자체 내장하고 있어 서버 운영에는 필요 없음
+                                (backtest/ 폴더 자체는 app.py가 import하므로 필요함— 위 1번 참고).
 
 --------------------------------------------------------------------
 3) 서버(EC2 등)에서 실행해야 하는 명령어
