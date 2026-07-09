@@ -17,14 +17,20 @@
 "명시적 가격 기반 손절 부재"는 이 전략 자체가 아니라 `risk/` 레이어가 모든 신호에 예외 없이
 강제로 적용한다(ATR 기반 손절 + STOP_MARKET 서버 예약).
 
+**실거래(`main.py`)와 백테스트 CLI(`run_backtest.py`)는 지금도 이 `trend_breakout` 하나만 쓴다.**
+`strategies/regime_hybrid.py`는 이걸 대체하려고 시도한 실험용 전략인데, 아직 백테스트에서도
+순손실이라 실거래에 연결하지 않았다. 실험 과정과 결과는
+[docs/regime_hybrid_research.md](docs/regime_hybrid_research.md) 참고.
+
 ## 디렉터리 구조
 
 ```
 futures_bot/
 ├── config/settings.py       # API키, 심볼/레버리지, 리스크%, 전략 파라미터 — 대부분 여기만 고치면 됨
 ├── data/                    # ccxt Binance Futures 클라이언트, 캔들 수집
-├── indicators/              # MA, RSI, MACD, ATR, Bollinger, 거래대금
-├── strategies/              # 시그널 로직 (base_strategy.py 인터페이스 + trend_breakout.py)
+├── indicators/              # MA, RSI, MACD, ATR, Bollinger, 거래대금, ADX(trend_strength.py)
+├── strategies/              # 시그널 로직 (base_strategy.py 인터페이스 + trend_breakout.py [실거래 중]
+│                             #   + regime_hybrid.py [실험용, 미사용])
 ├── risk/                    # 포지션사이즈, 손절/익절가, 청산가 안전마진, 일일/연속손실 가드
 ├── execution/               # 포지션 상태전이 판단(One-way Mode) + 주문 실행
 ├── backtest/                # 백테스트 엔진 + 성과지표(승률/PF/MDD/Sharpe/청산횟수)

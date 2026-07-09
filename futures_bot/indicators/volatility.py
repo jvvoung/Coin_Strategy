@@ -20,3 +20,9 @@ def bollinger_bands(series: pd.Series, period: int = 20, num_std: float = 2.0):
     upper = mid + num_std * std
     lower = mid - num_std * std
     return upper, mid, lower
+
+
+def bollinger_bandwidth(series: pd.Series, period: int = 20, num_std: float = 2.0) -> pd.Series:
+    """밴드가 얼마나 눌려있는지(스퀴즈) 측정. (상단-하단)/중심선 — 값이 작을수록 변동성 압축 상태."""
+    upper, mid, lower = bollinger_bands(series, period, num_std)
+    return (upper - lower) / mid
